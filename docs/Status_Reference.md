@@ -28,6 +28,17 @@ The following information is available in the
 - `profiles`: The set of currently defined profiles as setup
    using BED_MESH_PROFILE.
 
+## bed_screws
+
+The following information is available in the
+`Config_Reference.md#bed_screws` object:
+- `is_active`: Returns True if the bed screws adjustment tool is currently
+active.
+- `state`: The bed screws adjustment tool state. It is one of
+the following strings: "adjust", "fine".
+- `current_screw`: The index for the current screw being adjusted.
+- `accepted_screws`: The number of accepted screws.
+
 ## configfile
 
 The following information is available in the `configfile` object
@@ -108,6 +119,13 @@ The following information is available in the
 ```
 - `excluded_objects`: An array of strings listing the names of excluded objects.
 - `current_object`: The name of the object currently being printed.
+
+## extruder_stepper
+
+The following information is available for extruder_stepper objects (as well as
+[extruder](Config_Reference.md#extruder) objects):
+- `pressure_advance`: The current [pressure advance](Pressure_Advance.md) value.
+- `smooth_time`: The current pressure advance smooth time.
 
 ## fan
 
@@ -312,8 +330,12 @@ The following information is available in the `print_stats` object
 [virtual_sdcard](Config_Reference.md#virtual_sdcard) config section is
 defined):
 - `filename`, `total_duration`, `print_duration`, `filament_used`,
-  `state`, `message`: Estimated information about the current print
-  when a virtual_sdcard print is active.
+  `state`, `message`: Estimated information about the current print when a
+  virtual_sdcard print is active.
+- `info.total_layer`: The total layer value of the last `SET_PRINT_STATS_INFO
+   TOTAL_LAYER=<value>` G-Code command.
+- `info.current_layer`: The current layer value of the last
+  `SET_PRINT_STATS_INFO CURRENT_LAYER=<value>` G-Code command.
 
 ## probe
 
@@ -427,6 +449,8 @@ The following information is available in the `toolhead` object
 - `axis_minimum`, `axis_maximum`: The axis travel limits (mm) after
   homing.  It is possible to access the x, y, z components of this
   limit value (eg, `axis_minimum.x`, `axis_maximum.z`).
+- For Delta printers the `cone_start_z` is the max z height at
+  maximum radius (`printer.toolhead.cone_start_z`).
 - `max_velocity`, `max_accel`, `max_accel_to_decel`,
   `square_corner_velocity`: The current printing limits that are in
   effect. This may differ from the config file settings if a
@@ -463,6 +487,19 @@ object is always available):
   state. Possible values are: "ready", "startup", "shutdown", "error".
 - `state_message`: A human readable string giving additional context
   on the current Klipper state.
+
+## z_thermal_adjust
+
+The following information is available in the `z_thermal_adjust` object (this
+object is available if [z_thermal_adjust](Config_Reference.md#z_thermal_adjust)
+is defined).
+- `enabled`: Returns True if adjustment is enabled.
+- `temperature`: Current (smoothed) temperature of the defined sensor. [degC]
+- `measured_min_temp`: Minimum measured temperature. [degC]
+- `measured_max_temp`: Maximum measured temperature. [degC]
+- `current_z_adjust`: Last computed Z adjustment [mm].
+- `z_adjust_ref_temperature`: Current reference temperature used for calculation
+  of Z `current_z_adjust` [degC].
 
 ## z_tilt
 
